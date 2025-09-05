@@ -277,8 +277,26 @@ ggplot(pw_2010, aes(x = continent, y = plastic_waste_per_cap)) +
   )
 ```
 
-1.  Visualize the relationship between plastic waste per capita and mismanaged plastic waste per capita using a scatterplot.
-    Describe the relationship.
+**Compare:**
+
+-   **Violins** reveal **shape** (multi-modality, tail thickness) hidden by box plots.
+-   **Box plots** emphasize **median, IQR, and conventional outliers**; clearer for compact comparisons across groups.
+-   Using both offers complementary insight: use violins to see structure; box plots to summarize.
+
+## 5) Mismanaged vs per-capita plastic waste (scatter)
+
+Visualize the relationship between plastic waste per capita and mismanaged plastic waste per capita using a scatterplot.
+Describe the relationship.
+
+```{r mismanaged-vs-pw, eval=TRUE}
+ggplot(pw_2010, aes(x = plastic_waste_per_cap, y = mismanaged_plastic_waste_per_cap)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    x = "Plastic waste per capita (kg/day)",
+    y = "Mismanaged plastic waste per capita (kg/day)",
+    title = "Mismanaged vs total per-capita plastic waste (2010)"
+  )
+```
 
 2.  Colour the points in the scatterplot by continent.
     Does there seem to be any clear distinctions between continents with respect to how plastic waste per capita and mismanaged plastic waste per capita are associated?
