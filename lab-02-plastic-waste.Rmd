@@ -319,7 +319,34 @@ ggplot(pw_2010, aes(x = plastic_waste_per_cap, y = mismanaged_plastic_waste_per_
 
 **Added insight:** Continental clusters suggest **regional infrastructure and policy** differences: some regions show similar per-capita generation but **lower mismanagement**, pointing to better collection/recycling systems.
 
-3.  Visualize the relationship between plastic waste per capita and total population as well as plastic waste per capita and coastal population. You will need to make two separate plots. Do either of these pairs of variables appear to be more strongly linearly associated?
+## 6) Per-capita waste vs population (total & coastal)
+
+Visualize the relationship between plastic waste per capita and total population as well as plastic waste per capita and coastal population.
+You will need to make two separate plots.
+Do either of these pairs of variables appear to be more strongly linearly associated?
+
+```{r pw-vs-totalpop, eval=TRUE}
+ggplot(pw_2010, aes(x = total_pop, y = plastic_waste_per_cap)) +
+  geom_point(na.rm = TRUE) +
+  scale_x_log10(labels = label_number()) +
+  labs(
+    x = "Total population (log10, SI)", y = "Plastic waste per capita (kg/day)",
+    title = "Per-capita plastic waste vs total population"
+  )
+```
+
+```{r pw-vs-coastalpop, eval=TRUE}
+ggplot(pw_2010, aes(x = coastal_pop, y = plastic_waste_per_cap)) +
+  geom_point(na.rm = TRUE) +
+  scale_x_log10(labels = label_number()) +
+  labs(
+    x = "Coastal population (log10, SI)", y = "Plastic waste per capita (kg/day)",
+    title = "Per-capita plastic waste vs coastal population"
+  )
+```
+
+**Which appears more linear?** Neither is strongly linear; after log scaling, **coastal population** sometimes exhibits a **slightly tighter** relationship than total population, but signal remains **weak**.
+Consumption behavior and infrastructure likely dominate over sheer population counts.
 
 🧶 ✅ ⬆️ *Now is another good time to knit your document and commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
