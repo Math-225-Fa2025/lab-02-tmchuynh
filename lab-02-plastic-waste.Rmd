@@ -222,6 +222,21 @@ ggplot(pw_2010, aes(x = plastic_waste_per_cap)) +
   )
 ```
 
+```{r dens-by-continent-outline, eval=TRUE}
+ggplot(pw_2010, aes(x = plastic_waste_per_cap, color = continent)) +
+  geom_density(na.rm = TRUE) +
+  labs(x = "Plastic waste per capita (kg/day)", y = "Density", color = "Continent")
+```
+
+```{r dens-by-continent-fill-alpha, eval=TRUE}
+ggplot(pw_2010, aes(x = plastic_waste_per_cap, color = continent, fill = continent)) +
+  geom_density(alpha = 0.05, na.rm = TRUE) +
+  labs(x = "Plastic waste per capita (kg/day)", y = "Density", color = "Continent", fill = "Continent")
+```
+
+**Why `color`/`fill` are mapped but `alpha` is a geom argument?** `color`/`fill` reflect **data-driven aesthetics** (continent varies by row), so they belong in `aes()`.
+`alpha` here is a **constant stylistic choice** applied uniformly, so it’s set on the geom (outside `aes`) rather than mapped to data.
+
 🧶 ✅ ⬆️ *Now is a good time to knit your document and commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 And yet another way to visualize this relationship is using side-by-side box plots.
