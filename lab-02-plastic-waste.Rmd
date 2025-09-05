@@ -37,24 +37,25 @@ First, open the R Markdown document `lab-02.Rmd` and Knit it.
 Make sure it compiles without errors.
 The output will be in the file markdown `.md` file with the same name.
 
-## Packages
+# Packages
 
 We'll use the **tidyverse** package for this analysis.
 Run the following code in the Console to load this package.
 
-```{r load-packages, message=FALSE, eval=TRUE}
+```{r load-packages, eval=TRUE}
 library(tidyverse)
-library(scales)   
-library(janitor) 
+library(scales)     # nice axis labels
+library(janitor)    # tabulations & clean names
 ```
 
-## Data
+# Data
 
 The dataset for this assignment can be found as a csv file in the `data` folder of your repository.
 You can read it in using the following.
 
-```{r load-data, message=FALSE, eval=TRUE}
-plastic_waste <- read_csv("data/plastic-waste.csv")
+```{r load-data, eval=TRUE}
+plastic_waste <- read_csv("data/plastic-waste.csv") %>%
+  clean_names()
 ```
 
 The variable descriptions are as follows:
@@ -234,8 +235,14 @@ ggplot(pw_2010, aes(x = plastic_waste_per_cap, color = continent, fill = contine
   labs(x = "Plastic waste per capita (kg/day)", y = "Density", color = "Continent", fill = "Continent")
 ```
 
-**Why `color`/`fill` are mapped but `alpha` is a geom argument?** `color`/`fill` reflect **data-driven aesthetics** (continent varies by row), so they belong in `aes()`.
-`alpha` here is a **constant stylistic choice** applied uniformly, so it’s set on the geom (outside `aes`) rather than mapped to data.
+**Why are `color` and `fill` mapped but `alpha` is given as a geom argument?**\
+
+`color` and `fill` represent **data-driven aesthetics**—in this case, the continent varies from row to row, so each observation needs to be assigned a different colour or fill based on its group.
+That makes them part of the aesthetic mapping, defined inside `aes()`.
+
+By contrast, `alpha` is used here as a **constant styling choice**, applied the same way to all groups to improve readability of overlapping densities.
+Since it is not tied to any variable in the dataset, it is specified directly in the geom (outside `aes`) rather than mapped to the data.
+If we wanted transparency itself to vary by a data column, only then would we place `alpha` inside `aes()`.
 
 🧶 ✅ ⬆️ *Now is a good time to knit your document and commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
@@ -251,10 +258,6 @@ ggplot(data = plastic_waste,
 Convert your side-by-side box plots from the previous task to [violin plots](http://ggplot2.tidyverse.org/reference/geom_violin.html).
 What do the violin plots reveal that box plots do not?
 What features are apparent in the box plots but not in the violin plots?
-
-```{marginfigure}
-**Remember:** We use `geom_point()` to make scatterplots.
-```
 
 ## 4) Side-by-side box plots → violin plots
 
@@ -279,9 +282,11 @@ ggplot(pw_2010, aes(x = continent, y = plastic_waste_per_cap)) +
 
 **Compare:**
 
--   **Violins** reveal **shape** (multi-modality, tail thickness) hidden by box plots.
--   **Box plots** emphasize **median, IQR, and conventional outliers**; clearer for compact comparisons across groups.
--   Using both offers complementary insight: use violins to see structure; box plots to summarize.
+-   **Violins reveal shape (multi-modality, tail thickness) hidden by box plots.** They show the full distribution, making patterns like multiple peaks, skewness, or dense clusters more visible.
+
+-   **Box plots emphasize median, IQR, and conventional outliers; clearer for compact comparisons across groups.** They simplify distributions into key summaries, making it easy to compare central tendency and spread side by side.
+
+-   **Using both offers complementary insight: use violins to see structure; box plots to summarize.** Together they provide both the detail of distributional shape and the clarity of statistical landmarks.
 
 ## 5) Mismanaged vs per-capita plastic waste (scatter)
 
@@ -298,8 +303,10 @@ ggplot(pw_2010, aes(x = plastic_waste_per_cap, y = mismanaged_plastic_waste_per_
   )
 ```
 
-**Relationship (direct):** Generally **positive**: more per-capita generation corresponds to more mismanaged waste per person.
-The **spread** indicates heterogeneous waste-management efficiency across countries.
+**Relationship (direct):** The relationship is generally **positive**: countries that generate more plastic waste per person also tend to mismanage a larger amount of waste per person.
+However, the **wide spread of points** reveals substantial variation in outcomes.
+Some nations manage to keep mismanaged waste relatively low despite high per-capita generation, likely reflecting stronger collection and recycling systems, while others mismanage disproportionately large amounts even at moderate generation levels.
+This heterogeneity underscores that **waste-management efficiency and infrastructure quality** play a critical role in shaping outcomes beyond simple generation rates.
 
 **Colour by continent**
 
@@ -345,8 +352,15 @@ ggplot(pw_2010, aes(x = coastal_pop, y = plastic_waste_per_cap)) +
   )
 ```
 
-**Which appears more linear?** Neither is strongly linear; after log scaling, **coastal population** sometimes exhibits a **slightly tighter** relationship than total population, but signal remains **weak**.
-Consumption behavior and infrastructure likely dominate over sheer population counts.
+**Which appears more linear?** Neither relationship demonstrates a strong linear pattern.
+Even after applying a log transformation to reduce the skew from very large population values, the association between coastal population and per-capita plastic waste appears only slightly tighter than that observed with total population.
+This suggests that while countries with larger coastal populations may, in some cases, generate more plastic waste per person, the effect is not consistent or dominant.
+
+The weakness of the signal indicates that population metrics alone—whether overall or coastal—are insufficient to explain variations in per-capita plastic waste.
+Instead, factors such as consumption habits, waste-management infrastructure, cultural practices, levels of industrialization, and the prevalence of single-use plastics are likely more decisive.
+Wealthier nations with smaller populations can produce high per-capita waste due to higher consumption, whereas large-population countries may generate relatively low per-capita waste if infrastructure and cultural practices limit plastic usage.
+Population size sets the stage for potential waste generation but does not determine outcomes.
+It is the interaction of economic, social, and infrastructural conditions that largely drives the observed differences in plastic waste per capita across countries.
 
 🧶 ✅ ⬆️ *Now is another good time to knit your document and commit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
@@ -361,6 +375,8 @@ If you haven't had time to finish the exercises above, please ask for help befor
 ```{marginfigure}
 **Hint:** The x-axis is a calculated variable. One country with plastic waste per capita over 3 kg/day has been filtered out. And the data are not only represented with points on the plot but also a smooth curve. The term "smooth" should help you [pick which geom to use](https://ggplot2.tidyverse.org/reference/index.html#section-geoms).
 ```
+
+Recreate the following plot, and interpret what you see in context of the data.
 
 ## 7) Recreate and interpret the coastal proportion plot
 
@@ -395,8 +411,6 @@ Once you're done, check to make sure your latest changes are on GitHub and that 
 ```{r echo=FALSE, eval=TRUE}
 knitr::include_graphics("img/repo-end.png")
 ```
-
-Plastic waste vs coastal population proportion
 
 ## 8) Summary statistics by continent (concise report table)
 
