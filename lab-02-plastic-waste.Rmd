@@ -248,7 +248,20 @@ ggplot(data = plastic_waste,
   geom_boxplot()
 ```
 
-1.  Convert your side-by-side box plots from the previous task to [violin plots](http://ggplot2.tidyverse.org/reference/geom_violin.html). What do the violin plots reveal that box plots do not? What features are apparent in the box plots but not in the violin plots?
+Convert your side-by-side box plots from the previous task to [violin plots](http://ggplot2.tidyverse.org/reference/geom_violin.html).
+What do the violin plots reveal that box plots do not?
+What features are apparent in the box plots but not in the violin plots?
+
+## 4) Side-by-side box plots → violin plots
+
+```{r boxplots, eval=TRUE}
+ggplot(pw_2010, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_boxplot(na.rm = TRUE, outlier.alpha = 0.8) +
+  labs(
+    x = "Continent", y = "Plastic waste per capita (kg/day)",
+    title = "Per-capita plastic waste by continent — box plots"
+  )
+```
 
 ```{marginfigure}
 **Remember:** We use `geom_point()` to make scatterplots.
