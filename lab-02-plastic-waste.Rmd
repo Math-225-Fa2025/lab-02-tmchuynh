@@ -362,23 +362,31 @@ If you haven't had time to finish the exercises above, please ask for help befor
 **Hint:** The x-axis is a calculated variable. One country with plastic waste per capita over 3 kg/day has been filtered out. And the data are not only represented with points on the plot but also a smooth curve. The term "smooth" should help you [pick which geom to use](https://ggplot2.tidyverse.org/reference/index.html#section-geoms).
 ```
 
-1.  Recreate the following plot, and interpret what you see in context of the data.
+## 7) Recreate and interpret the coastal proportion plot
 
-```{r echo=FALSE, message=FALSE, eval=TRUE, warning=FALSE}
-plastic_waste %>% 
+```{r coastal-prop-plot, eval=TRUE}
+pw_2010 %>% 
   mutate(coastal_pop_prop = coastal_pop / total_pop) %>%
   filter(plastic_waste_per_cap < 3) %>%
   ggplot(aes(x = coastal_pop_prop, y = plastic_waste_per_cap, color = continent)) + 
-    geom_point() +
-    geom_smooth(color = "black") +
-    scale_color_viridis_d() +
-    labs(x = "Coastal population proportion (Coastal / total population)", 
-         y = "Plastic waste per capita ", 
-         color = "Continent",
-         title = "Plastic waste vs. coastal population proportion",
-         subtitle = "by continent") +
-    theme_minimal()
+  geom_point(na.rm = TRUE) +
+  geom_smooth(color = "black", se = TRUE, na.rm = TRUE) +
+  scale_color_viridis_d() +
+  labs(
+    x = "Coastal population proportion (coastal / total)", 
+    y = "Plastic waste per capita (kg/day)", 
+    color = "Continent",
+    title = "Plastic waste vs coastal population proportion",
+    subtitle = "2010; one extreme per-capita country filtered out"
+  ) +
+  theme_minimal()
 ```
+
+**Interpretation (in context):**
+
+-   The **black smoothing** line suggests a **gentle upward trend**: nations with a larger share of their population living **along the coast** generally exhibit slightly higher levels of per-capita plastic waste.
+-   Regional colour groupings highlight contrasts: some continents cluster at lower coastal proportions with correspondingly lower waste, while others extend into higher coastal shares coupled with greater waste levels—patterns consistent with **dense coastal urbanization, reliance on imports, and tourism-driven consumption**.
+-   The `< 3` filter was applied to prevent a single extreme outlier from disproportionately shaping the fitted trend.
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
 
