@@ -419,3 +419,12 @@ pw_2010 %>%
 A few countries form **high-end outliers**.
 **Mismanaged** waste tends to rise with total per-capita waste, but **dispersion** by continent implies policy and infrastructure differences.
 **Population size** (even coastal) is not a reliable predictor of per-capita waste without considering **consumption patterns**, **tourism**, and **waste systems**.
+
+------------------------------------------------------------------------
+
+## Appendix
+
+-   Use `na.rm = TRUE` in geoms/summaries to avoid dropped-row warnings.
+-   Consider `coord_cartesian(xlim = c(0, 3.5))` to reduce visual dominance of extreme outliers when discussing central patterns.
+-   When comparing groups, pair **violins** (shape) with **box plots** (summary) for a complete story.
+-   Prefer log scaling for heavily skewed counts (e.g., `scale_x_log10(labels = scales::label_number_si())`).
