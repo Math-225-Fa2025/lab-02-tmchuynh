@@ -147,6 +147,25 @@ pw_2010 %>%
   select(entity, continent, plastic_waste_per_cap)
 ```
 
+### Histograms faceted by continent
+
+```{r hist-faceted, eval=TRUE}
+ggplot(pw_2010, aes(x = plastic_waste_per_cap)) +
+  geom_histogram(binwidth = 0.2, boundary = 0, closed = "left", na.rm = TRUE) +
+  facet_wrap(~ continent, ncol = 3, scales = "free_y") +
+  labs(
+    x = "Plastic waste per capita (kg/day)",
+    y = "Countries",
+    title = "Per-capita plastic waste by continent (2010)"
+  )
+```
+
+**Interpretation (succinct, comparative):**
+
+-   The **bulk** of countries in most continents cluster **below \~1 kg/day** with **right-skewed** tails.
+-   Some regions show **heavier tails** (more countries above \~1.5 kg/day), highlighting higher consumption and/or packaging intensity.
+-   `scales = "free_y"` avoids continents with more countries dominating by raw count and clarifies shape differences.
+
 Another way of visualizing numerical data is using density plots.
 
 ```{r plastic_waste_per_cap-dens}
