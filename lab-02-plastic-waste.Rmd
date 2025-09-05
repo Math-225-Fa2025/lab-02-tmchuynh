@@ -395,3 +395,27 @@ Once you're done, check to make sure your latest changes are on GitHub and that 
 ```{r echo=FALSE, eval=TRUE}
 knitr::include_graphics("img/repo-end.png")
 ```
+
+Plastic waste vs coastal population proportion
+
+## 8) Summary statistics by continent (concise report table)
+
+```{r summary-stats, eval=TRUE}
+pw_2010 %>%
+  group_by(continent) %>%
+  summarise(
+    n      = n(),
+    mean   = mean(plastic_waste_per_cap, na.rm = TRUE),
+    median = median(plastic_waste_per_cap, na.rm = TRUE),
+    sd     = sd(plastic_waste_per_cap, na.rm = TRUE),
+    iqr    = IQR(plastic_waste_per_cap, na.rm = TRUE),
+    min    = min(plastic_waste_per_cap, na.rm = TRUE),
+    max    = max(plastic_waste_per_cap, na.rm = TRUE)
+  ) %>%
+  arrange(desc(median))
+```
+
+**Narrative (direct):** Distributions are **right-skewed** across continents with **medians \< 1 kg/day**.
+A few countries form **high-end outliers**.
+**Mismanaged** waste tends to rise with total per-capita waste, but **dispersion** by continent implies policy and infrastructure differences.
+**Population size** (even coastal) is not a reliable predictor of per-capita waste without considering **consumption patterns**, **tourism**, and **waste systems**.
