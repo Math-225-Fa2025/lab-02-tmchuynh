@@ -44,6 +44,8 @@ Run the following code in the Console to load this package.
 
 ```{r load-packages, message=FALSE, eval=TRUE}
 library(tidyverse)
+library(scales)   
+library(janitor) 
 ```
 
 ## Data
