@@ -1,7 +1,9 @@
 ---
 title: "Lab 02 - Global plastic waste"
 author: "Tina Huynh"
-output: pdf_document
+output: 
+  pdf_document:
+    latex_engine: xelatex
 link-citations: true
 ---
 
@@ -129,7 +131,7 @@ What can you say about how the continents compare to each other in terms of thei
 pw_2010 <- plastic_waste %>% filter(year == 2010)
 ```
 
-```{r plastic_waste_per_cap-hist, eval=TRUE}
+```{r plastic_waste_per_cap-hist-labelled, eval=TRUE}
 ggplot(pw_2010, aes(x = plastic_waste_per_cap)) +
   geom_histogram(binwidth = 0.2, boundary = 0, closed = "left", na.rm = TRUE) +
   labs(
@@ -141,7 +143,7 @@ ggplot(pw_2010, aes(x = plastic_waste_per_cap)) +
 
 **Identify the unusually high value (\> 3.5 kg/day).**
 
-```{r plastic_waste_per_cap-max, eval=TRUE}
+```{r plastic_waste_per_cap-max-sorted, eval=TRUE}
 pw_2010 %>%
   filter(plastic_waste_per_cap > 3.5) %>%
   arrange(desc(plastic_waste_per_cap)) %>%
