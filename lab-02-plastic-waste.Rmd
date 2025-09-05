@@ -111,10 +111,40 @@ plastic_waste %>%
 Did you expect this result?
 You might consider doing some research on Trinidad and Tobago to see why plastic waste per capita is so high there, or whether this is a data error.
 
-1.  Plot, using histograms, the distribution of plastic waste per capita faceted by continent. What can you say about how the continents compare to each other in terms of their plastic waste per capita?
+The country commonly flagged here is **Trinidad and Tobago**.
+High per-capita values can occur in smaller, high-income, import-dependent nations with concentrated urban/coastal populations, limited domestic recycling infrastructure, or sectoral mixes that elevate plastic throughput.
+Outliers warrant domain checks (methods, definitions, population denominators), but this particular spike has been noted in past compilations.
+
+## 1) Distribution of plastic waste per capita (2010)
+
+Plot, using histograms, the distribution of plastic waste per capita faceted by continent.
+What can you say about how the continents compare to each other in terms of their plastic waste per capita?
 
 ```{marginfigure}
 **NOTE:** From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can and should the code and view the results yourself.
+```
+
+```{r subset-2010, eval=TRUE}
+pw_2010 <- plastic_waste %>% filter(year == 2010)
+```
+
+```{r plastic_waste_per_cap-hist, eval=TRUE}
+ggplot(pw_2010, aes(x = plastic_waste_per_cap)) +
+  geom_histogram(binwidth = 0.2, boundary = 0, closed = "left", na.rm = TRUE) +
+  labs(
+    x = "Plastic waste per capita (kg/day)",
+    y = "Countries",
+    title = "Distribution of per-capita plastic waste (2010)"
+  )
+```
+
+**Identify the unusually high value (\> 3.5 kg/day).**
+
+```{r plastic_waste_per_cap-max, eval=TRUE}
+pw_2010 %>%
+  filter(plastic_waste_per_cap > 3.5) %>%
+  arrange(desc(plastic_waste_per_cap)) %>%
+  select(entity, continent, plastic_waste_per_cap)
 ```
 
 Another way of visualizing numerical data is using density plots.
