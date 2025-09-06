@@ -92,6 +92,7 @@ Interpretation: `glimpse()` confirms expected columns and types; `nrow()` report
 -   Have a quick look at the data and notice that there are cells taking the value `NA` -- what does this mean?
 
 **Q: What does `NA` mean?** 
+
 **A:** `NA` represents a **missing value** (unknown/not recorded).
 Many functions propagate `NA` unless you set `na.rm = TRUE` or handle missingness explicitly (e.g., imputation, filtering).
 
